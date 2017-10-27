@@ -64,3 +64,12 @@
         text-overflow: ellipsis;
     }
 }
+
+.kanban-board {
+    position: relative;
+    overflow: hidden;
+    padding-top: 0;
+    padding-left: 15px;
+    box-sizing: border-box;
+    user-select: none;
+}
