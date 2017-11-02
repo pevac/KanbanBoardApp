@@ -48,7 +48,6 @@ export default class CardForm extends React.Component<FormProps, FormState>{
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
-        console.log("fromcons");
     }
 
     componentWillReceiveProps(nextProps: any) {
@@ -67,7 +66,7 @@ export default class CardForm extends React.Component<FormProps, FormState>{
     }
 
     createCard(card: any) {
-        if (card.id == null && card.id == undefined && card.id == "") {
+        if (!card.id) {
             this.props.createCard(card);
         } else {
             this.props.updateCard(card.id, card);
@@ -82,7 +81,6 @@ export default class CardForm extends React.Component<FormProps, FormState>{
                 style={customStyles}
                 closeTimeoutMS={150}
                 isOpen={this.props.isOpen}>
-           
                 <form>
                     <div className="form-group row">
                         <label htmlFor='title' className="col-sm-2 col-form-label">Title</label>
@@ -107,9 +105,3 @@ export default class CardForm extends React.Component<FormProps, FormState>{
         );
     }
 }
-
-
-//export default connect(
-//    (state: ApplicationState) => state.isOpen, // Selects which state properties are merged into the component's props
-//    FormBoardState.actionCreators                  // Selects which action creators are merged into the component's props
-//)(CardForm) as typeof CardForm;

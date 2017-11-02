@@ -115,7 +115,6 @@ export const actionCreators = {
                 return res.json();
             })
             .then((data) => {
-                console.log(data);
                 dispatch({ type: 'CREATE_LOCAL_CARDS', card: data})
             });
     },
@@ -135,7 +134,7 @@ export const actionCreators = {
 
 // ----------------
 // REDUCER - For a given state and action, returns the new state. To support time travel, this must not mutate the old state.
-var selectedCard = { title: "", description: "", state: 0 }
+var selectedCard = { title: "", description: "", state: State.new }
 const unloadedState: BoardState = { cards: [], isOpen: false, selectedCard: selectedCard };
 
 export const reducer: Reducer<BoardState> = (state: BoardState, incomingAction: Action) => {

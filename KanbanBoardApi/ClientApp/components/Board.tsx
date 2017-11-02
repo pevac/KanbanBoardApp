@@ -21,14 +21,14 @@ class Board extends React.Component<BoardProps, {}> {
         this.props.getCards();
     }
 
-    onDrop(data: any, e: any, state: any) {
+    onDrop(data: any, e: any, state: BoardState.State) {
         var card = this.props.cards.filter((value: any) => value.id == data.card)[0];
         card.state = state;
         this.props.updateCard(card.id, card);
     }
 
 
-    public renderList(state: any) {
+    public renderList(state: BoardState.State) {
         var list = this.props.cards.map((value: BoardState.Card, index: any) => {
             var card = value;
             if (value.state == state) {
@@ -50,32 +50,32 @@ class Board extends React.Component<BoardProps, {}> {
                 </div>
                 <div className="kanban-board-container">
                     <Droppable
-                        types={['card']} // <= allowed drop types
-                            onDrop={(data: any, e: any) => { this.onDrop.apply(this, [data, e, 0]) }}>
+                            types={['card']} // <= allowed drop types
+                            onDrop={(data: any, e: any) => { this.onDrop.apply(this, [data, e, BoardState.State.new]) }}>
                             <button type="button" className="btn  board-add-card" onClick={() => this.props.openForm(true, this.props.selectedCard)}>New</button>
                         <ul>
-                            {this.renderList(0)}
+                                {this.renderList(BoardState.State.new)}
                         </ul>
                     </Droppable>
                     <Droppable
-                        types={['card']} // <= allowed drop types
-                        onDrop={(data: any, e: any) => { this.onDrop.apply(this, [data, e, 1]) }}>
-                        <ul>
-                            {this.renderList(1)}
+                            types={['card']} // <= allowed drop types
+                            onDrop={(data: any, e: any) => { this.onDrop.apply(this, [data, e, BoardState.State.todo]) }}>
+                            <ul>
+                                {this.renderList(BoardState.State.todo)}
                         </ul>
                     </Droppable>
                     <Droppable
-                        types={['card']} // <= allowed drop types
-                        onDrop={(data: any, e: any) => { this.onDrop.apply(this, [data, e, 2]) }}>
-                        <ul>
-                            {this.renderList(2)}
+                            types={['card']} // <= allowed drop types
+                            onDrop={(data: any, e: any) => { this.onDrop.apply(this, [data, e, BoardState.State.inProgress]) }}>
+                            <ul>
+                                {this.renderList(BoardState.State.inProgress)}
                         </ul>
                     </Droppable>
                     <Droppable
-                        types={['card']} // <= allowed drop types
-                        onDrop={(data: any, e: any) => { this.onDrop.apply(this, [data, e, 3]) }}>
-                        <ul>
-                            {this.renderList(3)}
+                            types={['card']} // <= allowed drop types
+                            onDrop={(data: any, e: any) => { this.onDrop.apply(this, [data, e, BoardState.State.done]) }}>
+                            <ul>
+                                {this.renderList(BoardState.State.done)}
                         </ul>
                     </Droppable>
                 </div>

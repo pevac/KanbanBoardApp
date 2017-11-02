@@ -90,6 +90,7 @@ namespace KanbanBoardApi.Controllers
                 return BadRequest(ModelState);
             }
 
+            card.State = State.New;
             _context.Cards.Add(card);
             await _context.SaveChangesAsync();
 
