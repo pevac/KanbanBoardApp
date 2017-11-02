@@ -3,6 +3,9 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as BoardState from '../store/Board';
+import { Card } from '../store/Board';
+import CardItem from './Card';
+import Form from './CardForm';
 var DaD = require('react-drag-and-drop') as any;
 var Draggable = DaD.Draggable;
 var Droppable = DaD.Droppable;
@@ -18,31 +21,66 @@ class Board extends React.Component<BoardProps, {}> {
         this.props.getCards();
     }
 
-    onDrop(data: any) {
-        console.log(data)
-        // => banana 
+    onDrop(data: any, e: any, state: any) {
+        var card = this.props.cards.filter((value: any) => value.id == data.card)[0];
+        card.state = state;
+        this.props.updateCard(card.id, card);
     }
 
-    updateCard(value: any) {
-        var newValue = value;
-        newValue.title = "fromDrag";
-        this.props.updateCard(newValue.id, newValue);
+
+    public renderList(state: any) {
+        var list = this.props.cards.map((value: BoardState.Card, index: any) => {
+            var card = value;
+            if (value.state == state) {
+                return (<Draggable key={index} type="card" data={value.id}><CardItem value={value} {...this.props}></CardItem></Draggable>);
+            }
+        })
+        return list;
     }
 
     public render() {
-        var list = this.props.cards.map((value: any, index: any) => {
-            console.log(value);
-            return (<Draggable key={index} onDragStart={(e: any) => { this.updateCard(value) }} type="cards" data={value.id}><li>{value.title}</li></Draggable>);
-        })
         return (
-            <div className="kanban-board">
-                <Droppable
-                    types={['cards']} // <= allowed drop types
-                    onDrop={this.onDrop.bind(this)}>
-                    <ul>
-                        {list}
-                    </ul>
-                </Droppable>
+            <div>
+            <div className='main-board-container'>
+                <div className="kanban-header-container">
+                        <div className='member-header-content'>New</div>
+                    <div className='member-header-content'>To do</div>
+                    <div className='member-header-content'>In Progress</div>
+                    <div className='member-header-content'>Done</div>
+                </div>
+                <div className="kanban-board-container">
+                    <Droppable
+                        types={['card']} // <= allowed drop types
+                            onDrop={(data: any, e: any) => { this.onDrop.apply(this, [data, e, 0]) }}>
+                            <button type="button" className="btn  board-add-card" onClick={() => this.props.openForm(true, this.props.selectedCard)}>New</button>
+                        <ul>
+                            {this.renderList(0)}
+                        </ul>
+                    </Droppable>
+                    <Droppable
+                        types={['card']} // <= allowed drop types
+                        onDrop={(data: any, e: any) => { this.onDrop.apply(this, [data, e, 1]) }}>
+                        <ul>
+                            {this.renderList(1)}
+                        </ul>
+                    </Droppable>
+                    <Droppable
+                        types={['card']} // <= allowed drop types
+                        onDrop={(data: any, e: any) => { this.onDrop.apply(this, [data, e, 2]) }}>
+                        <ul>
+                            {this.renderList(2)}
+                        </ul>
+                    </Droppable>
+                    <Droppable
+                        types={['card']} // <= allowed drop types
+                        onDrop={(data: any, e: any) => { this.onDrop.apply(this, [data, e, 3]) }}>
+                        <ul>
+                            {this.renderList(3)}
+                        </ul>
+                    </Droppable>
+                </div>
+            </div>
+            <Form {...this.props}></Form>
             </div>)
     }
 }

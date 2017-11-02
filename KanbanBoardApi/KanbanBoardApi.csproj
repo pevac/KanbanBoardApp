@@ -25,10 +25,14 @@
 
   <ItemGroup>
     <None Remove="ClientApp\components\Board.tsx" />
+    <None Remove="ClientApp\components\Card.tsx" />
+    <None Remove="ClientApp\components\CardForm.tsx" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\components\Board.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\Card.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\CardForm.tsx" />
     <TypeScriptCompile Include="ClientApp\store\Board.ts" />
   </ItemGroup>
 
